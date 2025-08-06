@@ -1,0 +1,131 @@
+<!-- users.mustache -->
+<div>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Email</th>
+        <th>Username</th>
+        <th>LastAccess</th>
+        <th>Timemodified</th>
+        <th>Estado</th>
+        <th>Mensaje de Error</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#users}}
+        <tr id="user-{{id}}">
+          <td>{{id}}</td>
+          <td>{{email}}</td>
+          <td>{{username}}</td>
+          <td>{{#userdate}} {{lastaccess}}, {{#str}} strftimedate, core_langconfig {{/str}} {{/userdate}}</td>
+          <td>{{#userdate}} {{timemodified}}, {{#str}} strftimedate, core_langconfig {{/str}} {{/userdate}}</td>
+          <td><span class="status text-warning">Pendiente</span></td>
+          <td><span class="error-message"></span></td>
+        </tr>
+      {{/users}}
+    </tbody>
+  </table>
+  
+  <button id="deleteUsers" style="margin:10px 0px;">Eliminar Usuarios</button>
+
+<!-- Indicador de carga -->
+  <div id="loadingIndicator" style="display: none;">
+    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    Procesando eliminación de usuarios...
+  </div>
+
+  <div id="progress">Progreso: 0 de {{tot_users}}</div>
+</div>
+
+{{#js}}
+
+require(['core/ajax'], function(ajax) {
+    const users = {{{userstojson}}};
+    console.log(users);
+    const deleteButton = document.getElementById("deleteUsers");
+    const loadingIndicator = document.getElementById("loadingIndicator");
+
+    document.getElementById("deleteUsers").addEventListener("click", function () {
+      
+      let completed = 0;
+
+      // Ocultar el botón y mostrar el indicador de carga
+      deleteButton.style.display = "none";
+      loadingIndicator.style.display = "inline-block";
+
+      // Función para eliminar usuarios de forma secuencial
+      function deleteUserSequentially(index) {
+        // Si hemos procesado todos los usuarios, detener la función
+        if (index >= users.length) {
+          // Ocultar el indicador de carga y mostrar el botón después de completar todos
+          loadingIndicator.style.display = "none";
+          deleteButton.style.display = "inline-block";
+          return;
+        }
+
+        const user = users[index];
+        ajax.call([{
+          methodname: 'local_hoteles_city_dashboard_delete_user',
+          args: {
+            user_id: user.id
+          },
+        }])[0]
+        .done(function(response) {
+          const userRow = document.getElementById(`user-${user.id}`);
+          const statusCell = userRow.querySelector(".status");
+          const errorMessageCell = userRow.querySelector(".error-message");
+
+          if (response.success) {
+            statusCell.innerText = "Eliminado";
+            statusCell.classList.remove("text-warning", "text-danger");
+            statusCell.classList.add("text-success"); // Cambia a verde para éxito
+            errorMessageCell.innerText = ""; // Limpia cualquier mensaje de error previo
+          } else {
+            statusCell.innerText = "Error";
+            statusCell.classList.remove("text-warning", "text-success");
+            statusCell.classList.add("text-danger");
+            errorMessageCell.innerText = response.exception ? response.exception.message : "Error desconocido";
+          }
+
+          completed++;
+          document.getElementById("progress").innerText = `Progreso: ${completed} de ${users.length}`;
+
+          // Llamar a la función recursiva para procesar el siguiente usuario
+          deleteUserSequentially(index + 1);
+        })
+        .fail(function(jqXHR, textStatus, errorThrown) {
+          const userRow = document.getElementById(`user-${user.id}`);
+          const statusCell = userRow.querySelector(".status");
+          const errorMessageCell = userRow.querySelector(".error-message");
+
+          statusCell.innerText = "Error";
+          statusCell.classList.remove("text-warning", "text-success");
+          statusCell.classList.add("text-danger");
+
+          try {
+            const response = JSON.parse(jqXHR.responseText);
+            if (response[0] && response[0].error && response[0].exception) {
+              errorMessageCell.innerText = response[0].exception.message;
+            } else {
+              errorMessageCell.innerText = "Error en la solicitud";
+            }
+          } catch (e) {
+            errorMessageCell.innerText = "Error desconocido";
+          }
+
+          completed++;
+          document.getElementById("progress").innerText = `Progreso: ${completed} de ${users.length}`;
+
+          // Llamar a la función recursiva para procesar el siguiente usuario
+          deleteUserSequentially(index + 1);
+        });
+      }
+
+      // Iniciar el proceso de eliminación secuencial con el primer usuario
+      deleteUserSequentially(0);
+    });
+
+});
+
+{{/js}}

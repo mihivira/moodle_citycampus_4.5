@@ -1,0 +1,40 @@
+pagina avances todos los cursos: por region, por hotel y por puesto
+    * dashboard.php
+        * dashboard_iframe.php  
+            - classes.js -- 5
+            - services.php -- 35
+            - lib.php -- 2945  -- local_hoteles_city_dashboard_get_dashboard_windows
+            - lib.php -- 1040  -- local_hoteles_city_dashboard_get_info_from_cache  -- se elimina 
+            - lib.php -- 1055  -- local_hoteles_city_dashboard_make_course_cache  -- se cambia el nombre por local_hoteles_city_dashboard_get_info_course
+            - lib.php -- 1015 -- local_hoteles_city_dashboard_get_info_course
+
+        *obtención de porcetnaje
+            lib.php -- 1638
+                - return round($number / $total * 100, $decimals);  ($response->approved_users, $response->enrolled_users)
+
+        * obtencion de cursos
+            lib.php -- 2197 -- local_hoteles_city_dashboard_get_courses_setting
+
+        + Obtencion de los usuario enrrolados a un cursos
+            lib.php -- 1628 -- local_hoteles_city_dashboard_count_users_many_courses
+
+    * detalle_curso.php -- Reporte de cursos
+        * detalle_curso_iframe.php   -- llamada mediante ajax
+            services.php -- 106 -- course_users_pagination
+            lib.php -- 1751 -- local_hoteles_city_dashboard_get_paginated_users
+            lib.php -- 906 -- local_hoteles_city_dashboard_get_enrolled_userids
+
+Pagina de Reportes de cursos
+    * detalle de cursos.php
+        * detalle_curso_iframe.php   -- llamada mediante ajax
+            services.php -- 106 -- course_users_pagination
+            lib.php -- 1751 -- local_hoteles_city_dashboard_get_paginated_users
+            lib.php -- 906 -- local_hoteles_city_dashboard_get_enrolled_userids
+            
+        - detalle_curso_iframe.php -- se cambia el funcionamiento de mostrar la información en los cursos    
+                                   -- se agregan botones para quitar y seleccionar todos los cursos
+                                   -- se agrega boton para buscar la información de los cursos, ya no se ejecuta al seleccionar un curso
+
+Reporte de curso para gerente general
+    * lib.php -- 1890 -- local_hoteles_city_dashboard_get_paginated_users 
+                        -- Se colocó un condición para obtner si el usuario tiene un estatus de completado se haga un consulta para obtener la fecha de completado

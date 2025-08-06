@@ -1,0 +1,306 @@
+/*Texto filtro*/
+.txt_filtro{
+    margin-right: 1rem;
+}
+
+/*Margen de los filtros*/
+.margen_filtro{
+    margin-bottom: 1rem;
+    margin-left: 1rem;
+}
+
+/* .chart-container {
+    position: relative;
+    margin: auto;
+    height: 80vh;
+    width: 80vw;
+  } */
+
+.reportes_btn{
+    display: inline-block;
+    font-weight: 400;
+    color: #feef00;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .35rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    background-color: #004e91;
+}
+
+/*Botón para regresar a reportes*/
+.reportes_btn:hover{
+    color: #feef00;
+}
+
+.gray-row {
+    background: #e9e9e9;
+}
+
+  /*Texto Primary*/
+  .txt_primary{
+      color: #4e73df;
+      font-size: .7rem;
+      font-weight: 700;
+  }
+
+  /*Texto Success*/
+  .txt_success{
+    color: #1cc88a;
+    font-size: .7rem;
+    font-weight: 700;
+}
+
+ /*Texto Info*/
+ .txt_info{
+    color: #36b9cc;
+    font-size: .7rem;
+    font-weight: 700;
+}
+
+/*Texto Warning*/
+.txt_warning{
+    color: #f6c23e;
+    font-size: .7rem;
+    font-weight: 700;
+}
+
+/*Texto Danger*/
+.txt_danger{
+    color: #e74a3b;
+    font-size: .7rem;
+    font-weight: 700;
+}
+
+/*Texto Secondary*/
+.txt_secondary{
+    color: #858796;
+    font-size: .7rem;
+    font-weight: 700;
+}
+
+/*Border left color Primary*/
+.border_left_color_primary{
+    border-left: .25rem solid #4e73df;
+}
+
+/*Border left color Success*/
+.border_left_color_success{
+  border-left: .25rem solid #1cc88a;
+}
+
+/*Border left color Info*/
+.border_left_color_info{
+  border-left: .25rem solid #36b9cc;
+}
+
+/*Border left color Warning*/
+.border_left_color_warning{
+  border-left: .25rem solid #f6c23e;
+}
+
+/*Border left color Danger*/
+.border_left_color_danger{
+  border-left: .25rem solid #e74a3b;
+}
+
+/*Border left color Secondary*/
+.border_left_color_secondary{
+  border-left: .25rem solid #858796;
+}
+
+/*Texto del Modal*/
+.txt_modal{
+    text-align: center;
+    color: rgb(224, 223, 231);
+    font-size: 1rem;
+    margin-top: 25%;
+    
+}
+
+/*Texto de card sin usuarios inscritos*/
+.txt_sin_usuarios{
+  text-align: center;
+  padding-top: 70px;
+  padding-bottom: 70px;
+  padding-left: 100px;
+  padding-right: 100px;
+}
+
+.choices__button:hover{
+    text-indent: -9999px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: 0;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+}
+
+.choices__button:active{
+    text-indent: -9999px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: 0;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+}
+
+.choices__button:visited{
+    text-indent: -9999px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: 0;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+}
+
+.choices__button:focus{
+    text-indent: -9999px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: 0;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+}
+
+.choices__button:focus-within{
+    text-indent: -9999px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: 0;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+}
+
+.choices{
+  min-width: 50%;
+}
+
+/* Center the loader */
+#loader {
+    position: absolute;
+    left: 50%;
+    top: 1000%;
+    z-index: 1;
+    width: 150px;
+    height: 150px;
+    margin: -75px 0 0 -75px;
+    border: 16px solid #d1d1d1;
+    border-radius: 50%;
+    border-top: 16px solid #004e91;
+    border-bottom: 16px solid #feef00;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+  }
+
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* Animacion del loader */
+  .animate-bottom {
+    position: relative;
+    -webkit-animation-name: animatebottom;
+    -webkit-animation-duration: 1s;
+    animation-name: animatebottom;
+    animation-duration: 1s
+  }
+
+  @-webkit-keyframes animatebottom {
+    from { bottom:-100px; opacity:0 }
+    to { bottom:0px; opacity:1 }
+  }
+
+  @keyframes animatebottom {
+    from{ bottom:-100px; opacity:0 }
+    to{ bottom:0; opacity:1 }
+  }
+
+  #myDiv {
+    display: none;
+    text-align: center;
+  }
+
+  /*Barra de cursos del archivo detalle_curso_iframe */
+  .barra-cursos {
+    padding-left: 3rem;
+  }
+
+  /* Estilo para la card comparativa en detalle_curso_iframe*/
+  .card-detalle{
+    padding-top: 1rem;
+    padding-left: 30rem;
+
+  }
+
+  body .filtro_m{
+    max-width: 100%;
+    z-index: 1;
+  }
+
+  .scroll_horizontal{
+    position: sticky;
+    left: 0rem;
+    font-size: 12px;
+    /* width: 40%;
+    margin-right: 27rem; */
+  }
+
+  .filtro_div{
+    margin-left: 0.01rem;
+    border-radius: 1rem;
+    color: black;
+    background-color: #fff;
+    padding: 15px;
+  }
+
+  @keyframes spinner {
+  to {transform: rotate(360deg);}
+}
+
+.spinner:before {
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  margin-left: -10px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  border-top-color: #333;
+  animation: spinner .6s linear infinite;
+}

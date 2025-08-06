@@ -1,0 +1,45 @@
+<h2>Mis Reportes</h2>
+<table class="generaltable">
+    <thead>
+        <tr>
+            <th>Nombre del Reporte</th>
+            <th>Fecha de Creación</th>
+            <th>Estado</th>
+            <th>Acción</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#reports}}
+        <tr>
+            <td>{{filename}}</td>
+            <td>{{createdat}}</td>
+            <td>
+                {{#status}}
+                    {{#iscompleted}}
+                        <span class="badge badge-success">Completado</span>
+                    {{/iscompleted}}
+                    {{^iscompleted}}
+                        <span class="badge badge-warning">{{status}}</span>
+                    {{/iscompleted}}
+                {{/status}}
+            </td>
+            <td>
+                {{#downloadurl}}
+                    <a href="{{downloadurl}}" class="btn btn-primary">Descargar</a>
+                {{/downloadurl}}
+                {{^downloadurl}}
+                    <span>No disponible</span>
+                {{/downloadurl}}
+            </td>
+        </tr>
+        {{/reports}}
+    </tbody>
+</table>
+
+
+{{#js}}
+setTimeout(function () {
+            location.reload();
+        }, 60000);
+
+{{/js}}

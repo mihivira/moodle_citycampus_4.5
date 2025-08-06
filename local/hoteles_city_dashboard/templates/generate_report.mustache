@@ -1,0 +1,33 @@
+<div>
+    <p>Se está procesando la solicitud del reporte </p>
+</div>
+
+{{#js}}
+require(['core/ajax'], function(ajax) {
+    var type = {{type}};
+    var datos = {{{ params}}};
+
+        
+    ajax.call([{
+        methodname: 'local_hoteles_city_dashboard_generate_report',
+        args: {
+            data: {
+               'tipo': type,
+               'datos': JSON.stringify(datos)
+            },
+        },
+    }])[0]
+    .done(function(response) {
+        if (response.task_id) {
+            console.log('Tarea creada con éxito. ID de la tarea:', response.task_id);
+            window.location = "{{wroot}}/local/hoteles_city_dashboard/reportes.php";
+        } else {
+            console.error('Error en la respuesta del servicio:', response);
+            alert('Error en la respuesta del servicio');
+        }
+    
+    });
+
+});
+
+{{/js}}
