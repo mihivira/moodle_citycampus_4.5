@@ -36,6 +36,11 @@
  $PAGE->set_heading('Reportes por unidad operativa');
  $PAGE->set_pagelayout('admin');
 
+ $PAGE->requires->js(new moodle_url('/local/hoteles_city_dashboard/js/jspdf/jspdf.umd.min.js'), true);
+ $PAGE->requires->js(new moodle_url('/local/hoteles_city_dashboard/js/jspdf/autotable.js'), true);
+ $PAGE->requires->js(new moodle_url('/local/hoteles_city_dashboard/js/html2canvas/html2canvas.min.js'), true);
+ $PAGE->requires->js(new moodle_url('/local/hoteles_city_dashboard/js/sheetsjs/xlsx.full.min.js'), true);
+
  echo $OUTPUT->header();
 
  $data = (object)[ ];

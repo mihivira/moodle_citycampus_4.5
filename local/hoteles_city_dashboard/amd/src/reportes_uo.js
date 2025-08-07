@@ -19,7 +19,6 @@ define([
       }])[0]
       .done(function(response) {
 
-
         var data = JSON.parse(response);
 
         window.console.log("data:  ", data);

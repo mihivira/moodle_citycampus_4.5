@@ -111,7 +111,10 @@ $string['estado_en_progreso'] = 'En Progreso';
 $string['estado_completado'] = 'Completado';
 $string['estado_fallido'] = 'Fallido';
 
-$string['alta_baja_usuarios'] = 'Alta/Baja de Usuarios';
+$string['alta_baja_usuarios'] = 'Administración de usuarios';
+$string['alta_baja_usuarios_oficina_central'] = 'Administración de usuarios de Oficina Central';
+$string['listado_todos_los_usuarios'] = 'Administración de todos los usuarios';
+$string['suspend_users'] = 'Reactivación de usuarios';
 $string['graficas_cursos'] = 'Gráficas de Cursos';
 $string['reporte_cursos'] = 'Reporte de Cursos';
 $string['descargar_reporte_cursos'] = 'Descargar Reporte de Cursos';

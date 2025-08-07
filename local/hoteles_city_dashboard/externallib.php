@@ -67,7 +67,7 @@ class local_hoteles_city_dashboard_reports_uo_external extends external_api {
         
     }
 
-    public function graphs_regions($progress_regions, $title,$is_uos = false) {
+    public static function graphs_regions($progress_regions, $title,$is_uos = false) {
         
         
         $arr_approved = $arr_not_approved = $arr_regions = [];

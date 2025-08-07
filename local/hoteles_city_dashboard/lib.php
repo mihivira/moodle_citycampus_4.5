@@ -136,101 +136,96 @@ DEFINE('LOCAL_HOTELES_CITY_DASHBOARD_SPECIAL_CUSTOM_FIELDS', [
     LOCAL_HOTELES_CITY_DASHBOARD_PUESTO_MARCA_FIELD => "Puesto-marca"
 ]);
 
-DEFINE('LOCAL_HOTELES_CITY_DASHBOARD_SUBDIRECTOR_REGIONAL_VALUE', "Director Regional");
+DEFINE('LOCAL_HOTELES_CITY_DASHBOARD_DIRECTOR_REGIONAL_VALUE', "Director Regional");
 DEFINE('LOCAL_HOTELES_CITY_DASHBOARD_DIRECTOR_REGIONAL_OP_VALUE', "Director Regional de Operaciones");
 DEFINE('LOCAL_HOTELES_CITY_DASHBOARD_SUBDIRECTOR_REGIONAL_VALUE', "Subdirector Regional de Ventas");
 
-/*
+
 // Agrega enlace al Dashboard en el menú lateral de Moodle
 function local_hoteles_city_dashboard_extend_navigation(global_navigation $nav) {
     global $CFG;
     $permissions = local_hoteles_city_dashboard_get_user_permissions();
-    foreach ($permissions as $key) {
-        switch ($key) {
-            case LOCAL_HOTELES_CITY_DASHBOARD_ALTA_BAJA_USUARIOS:
-                $node = $nav->add (
-                    $key,
-                    new moodle_url( $CFG->wwwroot . '/local/hoteles_city_dashboard/usuarios.php?type='
-                    . LOCAL_HOTELES_CITY_DASHBOARD_ACTIVED_USERS_PAGINATION )
-                );
-                $node->showinflatnavigation = true;
-                break;
+    $nodes = explode("\n", $CFG->custommenuitems);
 
-            case LOCAL_HOTELES_CITY_DASHBOARD_ALTA_BAJA_USUARIOS_OFICINA_CENTRAL:
-                $node = $nav->add (
-                    $key,
-                    new moodle_url( $CFG->wwwroot . '/local/hoteles_city_dashboard/usuarios.php?type='
-                    . LOCAL_HOTELES_CITY_DASHBOARD_OFICINA_CENTRAL_PAGINATION )
-                );
-                $node->showinflatnavigation = true;
-                break;
-            case LOCAL_HOTELES_CITY_DASHBOARD_CAMBIO_USUARIOS:
-                $node = $nav->add (
-                    $key,
-                    new moodle_url( $CFG->wwwroot . '/local/hoteles_city_dashboard/usuarios.php?type='
-                    . LOCAL_HOTELES_CITY_DASHBOARD_SUSPENDED_USERS_PAGINATION )
-                );
-                $node->showinflatnavigation = true;
-                break;
+        $node = get_string('pluginname', 'local_hoteles_city_dashboard'). '|' . $CFG->wwwroot . '/local/hoteles_city_dashboard/dashboard.php';
+        array_push($nodes, $node);
+       
+        foreach ($permissions as $key) {
+            switch ($key) {
+                case LOCAL_HOTELES_CITY_DASHBOARD_ALTA_BAJA_USUARIOS:
+                    $url = new moodle_url($CFG->wwwroot . '/local/hoteles_city_dashboard/usuarios.php', [
+                        'type' => LOCAL_HOTELES_CITY_DASHBOARD_ACTIVED_USERS_PAGINATION
+                    ]);
+                    $node = '-' . get_string('alta_baja_usuarios', 'local_hoteles_city_dashboard') . '|' . $url->out();
+                    array_push($nodes, $node);
+                    break;
 
-            case LOCAL_HOTELES_CITY_DASHBOARD_LISTADO_TODOS_LOS_USUARIOS:
-                $node = $nav->add (
-                    $key,
-                    new moodle_url( $CFG->wwwroot . '/local/hoteles_city_dashboard/usuarios.php?type='
-                    . LOCAL_HOTELES_CITY_DASHBOARD_ALL_USERS_PAGINATION )
-                );
-                $node->showinflatnavigation = true;
-                break;
+                case LOCAL_HOTELES_CITY_DASHBOARD_ALTA_BAJA_USUARIOS_OFICINA_CENTRAL:
+                    $url = new moodle_url($CFG->wwwroot . '/local/hoteles_city_dashboard/usuarios.php', [
+                        'type' => LOCAL_HOTELES_CITY_DASHBOARD_OFICINA_CENTRAL_PAGINATION
+                    ]);
+                    $node = '-' . get_string('alta_baja_usuarios_oficina_central', 'local_hoteles_city_dashboard') . '|' . $url->out();
+                    array_push($nodes, $node);
+                    break;
 
-            case LOCAL_HOTELES_CITY_DASHBOARD_REPORTES:
-                $node = $nav->add (
-                    'Gráficas de cursos',
-                    new moodle_url( $CFG->wwwroot . '/local/hoteles_city_dashboard/estatus_curso.php')
-                );
-                $node->showinflatnavigation = true;
-                $node = $nav->add (
-                    'Reporte de cursos',
-                    new moodle_url( $CFG->wwwroot . '/local/hoteles_city_dashboard/detalle_curso.php' )
-                );
-                $node->showinflatnavigation = true;
-                $node = $nav->add (
-                    'Descargar reporte de cursos',
-                    new moodle_url( $CFG->wwwroot . '/local/hoteles_city_dashboard/descargar_reporte.php' )
-                );
-                $node->showinflatnavigation = true;
-                break;
-            case LOCAL_HOTELES_CITY_DASHBOARD_REPORTES_UO:
-                $node = $nav->add (
-                    'Reportes por unidad operativa',
-                    new moodle_url( $CFG->wwwroot . '/local/hoteles_city_dashboard/layout/reporte_uo.php' )
-                );
-                $node->showinflatnavigation = true;
-                break;
-            case LOCAL_HOTELES_CITY_DASHBOARD_GRAFICAS_COMPARATIVAS:
-                $node = $nav->add (
-                    $key,
-                    new moodle_url( $CFG->wwwroot . '/local/hoteles_city_dashboard/dashboard.php' )
-                );
-                $node->showinflatnavigation = true;
-                break;
-            case LOCAL_HOTELES_CITY_DASHBOARD_AJUSTES:
-                $node = $nav->add (
-                    $key,
-                    new moodle_url( $CFG->wwwroot . '/local/hoteles_city_dashboard/ajustes.php' )
-                );
-                $node->showinflatnavigation = true;
-                break;
-            case LOCAL_HOTELES_CITY_FORCE_DELETE_USERS:
-                $node = $nav->add (
-                    $key,
-                    new moodle_url( $CFG->wwwroot . '/local/hoteles_city_dashboard/force_delete_users_masive.php' )
-                );
-                $node->showinflatnavigation = true;
-                break;
+                case LOCAL_HOTELES_CITY_DASHBOARD_CAMBIO_USUARIOS:
+                    $url = new moodle_url($CFG->wwwroot . '/local/hoteles_city_dashboard/usuarios.php', [
+                        'type' => LOCAL_HOTELES_CITY_DASHBOARD_SUSPENDED_USERS_PAGINATION
+                    ]);
+                    $node = '-' . get_string('suspend_users', 'local_hoteles_city_dashboard') . '|' . $url->out();
+                    array_push($nodes, $node);
+                    break;
+
+                case LOCAL_HOTELES_CITY_DASHBOARD_LISTADO_TODOS_LOS_USUARIOS:
+                    $url = new moodle_url($CFG->wwwroot . '/local/hoteles_city_dashboard/usuarios.php', [
+                        'type' => LOCAL_HOTELES_CITY_DASHBOARD_ALL_USERS_PAGINATION
+                    ]);
+                    $node = '-' . get_string('listado_todos_los_usuarios', 'local_hoteles_city_dashboard') . '|' . $url->out();
+                    array_push($nodes, $node);
+                    break;
+
+                case LOCAL_HOTELES_CITY_DASHBOARD_REPORTES:
+                    $url = new moodle_url($CFG->wwwroot .  '/local/hoteles_city_dashboard/estatus_curso.php');
+                    $node = '-' . get_string('graficas_cursos', 'local_hoteles_city_dashboard') . '|' . $url->out();
+                    array_push($nodes, $node);
+                    $url = new moodle_url($CFG->wwwroot . '/local/hoteles_city_dashboard/detalle_curso.php');
+                    $node = '-' . get_string('reporte_cursos', 'local_hoteles_city_dashboard') . '|' . $url->out();
+                    array_push($nodes, $node);
+                    $url = new moodle_url($CFG->wwwroot . '/local/hoteles_city_dashboard/descargar_reporte.php');
+                    $node = '-' . get_string('descargar_reporte_cursos', 'local_hoteles_city_dashboard') . '|' . $url->out();
+                    array_push($nodes, $node);
+                    break;
+
+                case LOCAL_HOTELES_CITY_DASHBOARD_REPORTES_UO:
+                    $url = new moodle_url($CFG->wwwroot . '/local/hoteles_city_dashboard/layout/reporte_uo.php');
+                    $node = '-' . get_string('reportes_uo', 'local_hoteles_city_dashboard') . '|' . $url->out();
+                    array_push($nodes, $node);
+                    break;
+
+                case LOCAL_HOTELES_CITY_DASHBOARD_GRAFICAS_COMPARATIVAS:
+                    $url = new moodle_url($CFG->wwwroot . '/local/hoteles_city_dashboard/dashboard.php');
+                    $node = '-' . get_string('graficas_comparativas', 'local_hoteles_city_dashboard') . '|' . $url->out();
+                    array_push($nodes, $node);
+                    break;
+
+                case LOCAL_HOTELES_CITY_DASHBOARD_AJUSTES:
+                    $url = new moodle_url($CFG->wwwroot . '/local/hoteles_city_dashboard/ajustes.php');
+                    $node = '-' . get_string('ajustes', 'local_hoteles_city_dashboard') . '|' . $url->out();
+                    array_push($nodes, $node);
+                    break;
+
+                case LOCAL_HOTELES_CITY_FORCE_DELETE_USERS:
+                    $url = new moodle_url($CFG->wwwroot . '/local/hoteles_city_dashboard/force_delete_users_masive.php');
+                    $node = '-' . get_string('force_delete_users', 'local_hoteles_city_dashboard') . '|' . $url->out();
+                    array_push($nodes, $node);
+                    break;
+            }
+            
         }
-    }
+        $CFG->custommenuitems = implode("\n", $nodes);
 }
-    */
+    
+
 
 function local_hoteles_city_dashboard_get_role_permissions(){
     $all_permissions = [
@@ -512,9 +507,9 @@ function local_hoteles_city_dashboard_get_directores_regionales_op(){
 
 function local_hoteles_city_dashboard_get_directores_regionales(){
     global $DB;
-    $LOCAL_HOTELES_CITY_DASHBOARD_SUBDIRECTOR_REGIONAL_VALUE = LOCAL_HOTELES_CITY_DASHBOARD_DIRECTOR_REGIONAL_VALUE;
+    $LOCAL_HOTELES_CITY_DASHBOARD_DIRECTOR_REGIONAL_VALUE = LOCAL_HOTELES_CITY_DASHBOARD_DIRECTOR_REGIONAL_VALUE;
     return $DB->get_records_sql_menu("SELECT id, concat(firstname, ' ', lastname) as name
-     FROM {user} WHERE deleted = 0 AND suspended = 0 AND department LIKE '%{$LOCAL_HOTELES_CITY_DASHBOARD_SUBDIRECTOR_REGIONAL_VALUE}%'");    
+     FROM {user} WHERE deleted = 0 AND suspended = 0 AND department LIKE '%{$LOCAL_HOTELES_CITY_DASHBOARD_DIRECTOR_REGIONAL_VALUE}%'");    
 }
 
 function local_hoteles_city_dashboard_get_subdirectores_regionales(){
