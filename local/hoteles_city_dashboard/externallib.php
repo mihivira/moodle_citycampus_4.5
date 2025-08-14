@@ -283,3 +283,55 @@ class local_hoteles_city_dashboard_external extends external_api {
         ]);
     }
 }
+
+class local_hoteles_city_dashboard_external_dashboard extends external_api {
+
+    /**
+     * Returns description of method parameters
+     * @return external_function_parameters
+     */
+    public static function get_cards_data_parameters() {
+        return new external_function_parameters([]);
+    }
+
+    public static function get_cards_data_returns() {
+        return new external_value(PARAM_TEXT, 'JSON object', VALUE_OPTIONAL);
+    }
+
+    /**
+     * Get data for the dashboard cards.
+     * @return string JSON encoded data for the dashboard cards.
+     */
+    public static function get_cards_data() {
+        global $DB;
+
+        $response['data'] = local_hoteles_city_dashboard_get_dashboard_cards_info();
+
+        return json_encode($response);
+    }
+
+    /**
+     * Returns description of method parameters
+     * @return external_function_parameters
+     */
+    public static function get_data_parameters() {
+        return new external_function_parameters([]);
+    }
+
+    public static function get_data_returns() {
+        return new external_value(PARAM_TEXT, 'JSON object', VALUE_OPTIONAL);
+    }
+
+    /**
+     * Get data for the dashboard.
+     * @return string JSON encoded data for the dashboard.
+     */
+    public static function get_data() {
+        global $DB;
+
+        $response['data'] = local_hoteles_city_dashboard_get_dashboard_windows();
+
+        return json_encode($response);
+    }
+
+}

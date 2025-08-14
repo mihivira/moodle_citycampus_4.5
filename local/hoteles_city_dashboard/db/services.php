@@ -56,6 +56,29 @@ $functions = array(
                 'ajax'        => true,
                 'capabilities'=> 'moodle/user:delete'
         ],
+        'local_hoteles_city_dashboard_get_users' => [
+                'classname'   => 'local_hoteles_city_dashboard\external\get_users',
+                'methodname'  => 'execute',
+                'description' => 'Obtener usuarios según el tipo de paginación.',
+                'type'        => 'read',
+                'ajax'        => true,
+        ],
+        'local_hoteles_city_dashboard_data' => array(
+                'classname'   => 'local_hoteles_city_dashboard_external_dashboard',
+                'methodname'  => 'get_data',
+                'classpath'   => 'local/hoteles_city_dashboard/externallib.php',
+                'description' => 'Obtiene los datos del dashboard.',
+                'ajax'        => true,
+                'type'        => 'read',
+        ),
+        'local_hoteles_city_dashboard_cards' => array(
+                'classname'   => 'local_hoteles_city_dashboard_external_dashboard',
+                'methodname'  => 'get_cards_data',
+                'classpath'   => 'local/hoteles_city_dashboard/externallib.php',
+                'description' => 'Obtiene los datos de las tarjetas del dashboard.',
+                'ajax'        => true,
+                'type'        => 'read',
+        )
 );
 
 // We define the services to install as pre-build services. A pre-build service is not editable by administrator.
@@ -66,6 +89,8 @@ $services = array(
                     'local_hoteles_city_dashboard_get_institutions_ggc',
                     'local_hoteles_city_dashboard_generate_report',
                     'local_hoteles_city_dashboard_delete_user',
+                    'local_hoteles_city_dashboard_data',
+                    'local_hoteles_city_dashboard_cards'
                 ),
                 'restrictedusers' => 0,
                 'enabled'=>1,

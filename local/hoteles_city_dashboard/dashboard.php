@@ -33,14 +33,21 @@ require_login();
 
 $PAGE->set_url($CFG->wwwroot . "/local/hoteles_city_dashboard/dashboard.php");
 $PAGE->set_context($context_system);
-$PAGE->set_pagelayout('admin');
-$PAGE->set_title(get_string('pluginname', 'local_hoteles_city_dashboard'));
-$PAGE->requires->css('/local/hoteles_city_dashboard/vendor/fontawesome-free/css/all.min.css'); 
+$PAGE->set_pagelayout('standard');
+
+//$PAGE->requires->css('/local/hoteles_city_dashboard/vendor/fontawesome-free/css/all.min.css'); 
 //$PAGE->requires->css('https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i');
-$PAGE->requires->css('/local/hoteles_city_dashboard/css/sb-admin-2.min.css'); 
-$PAGE->requires->css('/local/hoteles_city_dashboard/estilos_city.css'); 
+//$PAGE->requires->css('/local/hoteles_city_dashboard/css/sb-admin-2.min.css'); 
+//$PAGE->requires->css('/local/hoteles_city_dashboard/estilos_city.css'); 
+
+//Colocar un titulo
+$PAGE->set_title(get_string('pluginname', 'local_hoteles_city_dashboard'));
+$PAGE->set_heading(get_string('pluginname', 'local_hoteles_city_dashboard'));
+
+
 echo $OUTPUT->header();
 
 echo $OUTPUT->render_from_template('local_hoteles_city_dashboard/dashboard', []);
+$PAGE->requires->js_call_amd('local_hoteles_city_dashboard/dashboard', 'init');
 
 echo $OUTPUT->footer();

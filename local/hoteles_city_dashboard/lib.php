@@ -1707,65 +1707,77 @@ function local_hoteles_city_dashboard_get_report_columns(int $type, bool $return
     ', $select_sql);
     $imploded_slim = implode(',
     ', $slim_query);
-    $ajax_code = "";
+    //$ajax_code = "";
+    $ajax_code = [];
     $ajax_printed_rows = '';
     $ajax_link_fields = '';
     $count = 0;
+    
     foreach($ajax_names as $an){
         $islink = true;
         switch($an){
             case 'link_suspend_user':
-                $ajax_code .= "{data: '{$an}', render:
-                function ( data, type, row ) {
-                    parts = data.split('||');
-                    id = parts[0];
-                    suspended = parts[1];
-                    texto = (suspended == '1') ? 'Quitar suspensión' : 'Suspender';
-                    clase = (suspended == '1') ? 'btn btn-success' : 'btn btn-danger';
-                    arrModal =[];
-                    arrModal[0] = texto;
-                    arrModal[1]= 'administrar_usuarios.php?suspenduser=1&id=' + id;
-                    return '<button target=\"\" class=\"susp-user ' + clase + '\" href=\"\" onclick=\"modSusp(\''+arrModal+'\');\">' + texto + '</button>'; }
-                }, ";
+                 //$ajax_code .= '{"data": "'.$an.'", "render": "link_suspend_user"}, ';
+                $ajax_code[] = [ 'data' => $an, 'render' => "
+                    function ( data, type, row ) {
+                        parts = data.split('||');
+                        id = parts[0];
+                        suspended = parts[1];
+                        texto = (suspended == '1') ? 'Quitar suspensión' : 'Suspender';
+                        clase = (suspended == '1') ? 'btn btn-success' : 'btn btn-danger';
+                        arrModal =[];
+                        arrModal[0] = texto;
+                        arrModal[1]= 'administrar_usuarios.php?suspenduser=1&id=' + id;
+                        return '<button target=\"\" class=\"susp-user ' + clase + '\" href=\"\" onclick=\"modSusp(\''+arrModal+'\');\">' + texto + '</button>'; 
+                    }"
+                ];
             break;
             case 'link_edit_user':
-                $ajax_code .= "{data: '{$an}', render:
-                function ( data, type, row ) { return '<a target=\"_self\" class=\"btn btn-primay\" href=\"administrar_usuarios.php?id=' + data + '\">Editar usuario</a>'; }  }, ";
-                // $ajax_code .= "{data: '{$an}', render: function ( data, type, row ) { return data; }  }, ";
+                 //$ajax_code .= '{"data": "'.$an.'", "render": "link_edit_user"}, ';
+                $ajax_code[] = [ 'data' => $an, 'render' => "
+                    function ( data, type, row ) {
+                        return '<a target=\"_self\" class=\"btn btn-primay\" href=\"administrar_usuarios.php?id=' + data + '\">Editar usuario</a>';
+                    }"
+                ];
+                // $ajax_code .= "{data: '{$an}', render: function ( data, type, row ) { return data; }  }, "; */
             break;
             case 'name':
                 $islink = false;
-                $ajax_code .= "{data: '{$an}', render:
-                    function ( data, type, row ) {
-                        parts = data.split('||');// nombre||id
-                        return '<a class=\"_blank\" href=\"administrar_usuarios.php?id=' + parts[1] + '\">' + parts[0] + '</a>';
-                    }
-                }, ";
+                 //$ajax_code .= '{"data": "'.$an.'", "render": "link_name"}, ';
+                $ajax_code[] = [ 'data' => $an, 'render' => "
+                   function ( data, type, row ) {
+                       parts = data.split('||');// nombre||id
+                       return '<a class=\"_blank\" href=\"administrar_usuarios.php?id=' + parts[1] + '\">' + parts[0] + '</a>';
+                       }"
+                    ];
                 $ajax_printed_rows .= ($count . ',');
             // $ajax_code .= "{data: '{$an}', render: function ( data, type, row ) { return data; }  }, ";
             break;
             case 'link_libro_calificaciones':
                 global $CFG;
-                $ajax_code .= "{data: '{$an}', render: function ( data, type, row ) {
-                    parts = data.split('||'); /* id||courseid */
+                /* $ajax_code .= "{data: '{$an}', render: function ( data, type, row ) {
+                    parts = data.split('||'); 
                     return `<a target=\"_blank\" class=\"btn btn-primay\" href=\"{$CFG->wwwroot}/grade/report/user/index.php?id=` + parts[1] + `&userid=` + parts[0] + `\">Libro de calificaciones</a>`;
-                }}, ";
+                }}, "; */
                 break;
             default:
                 if(strpos($an, "custom_") !== false){
                   $islink = false;
                   $ajax_printed_rows .= ($count . ',');
-                  $ajax_code .= "{data: '{$an}', searchable: false, orderable: false,},";
+                  //$ajax_code .= '{"data": "'.$an.'", "searchable": false, "orderable": false},';
+                    $ajax_code[] = [ "data" => $an, "searchable" => false, "orderable" => false];
                 }
                 elseif(strpos($an, "lastaccess") !== false){
                     $islink = false;
                     $ajax_printed_rows .= ($count . ',');
-                    $ajax_code .= "{data: '{$an}', searchable: false, orderable: false,},";
+                    //$ajax_code .= '{"data": "'.$an.'", "searchable": false, "orderable": false},';
+                    $ajax_code[] = [ "data" => $an, "searchable" => false, "orderable" => false];
                 }
                 else {
                   $islink = false;
                   $ajax_printed_rows .= ($count . ',');
-                  $ajax_code .= "{data: '{$an}' },";
+                  //$ajax_code .= '{"data": "'.$an.'"},';
+                  $ajax_code[] = [ "data" => $an ];
                 }
 
             break;
@@ -1775,6 +1787,7 @@ function local_hoteles_city_dashboard_get_report_columns(int $type, bool $return
         }
         $count++;
     }
+        
     // $ajax_code .= "{data: '{$an}', render: function ( data, type, row ) // Ejemplo agregando una columna de alguna ya generada
     //                 { return 'Otra cosa con el mismo {$an}' + data; } // Ejemplo agregando una columna de alguna ya generada
     //             }, "; // Ejemplo agregando una columna de alguna ya generada
@@ -2055,6 +2068,8 @@ function local_hoteles_city_dashboard_get_custom_profile_fields(string $ids = ''
  * Regresa información para la paginación de usuarios compatible con datatables
  */
 function local_hoteles_city_dashboard_get_paginated_users(array $params, $type){
+    /* echo "param post";
+    print_object($params); */
     $courseid = local_hoteles_city_dashboard_get_value_from_params($params, 'courseid');
     $courseid = intval($courseid);
     $queryParams = array();
