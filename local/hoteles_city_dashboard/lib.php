@@ -402,7 +402,7 @@ function local_hoteles_city_dashboard_get_courses_overview(array $params = array
             array_push($courses_in_order, $course_information);
         }
     }
-    usort($courses_in_order, function ($a, $b) {return $a->title > $b->title;});
+    usort($courses_in_order, function ($a, $b) {return $a->title <=> $b->title;});
     return $courses_in_order;
 }
 
@@ -3405,6 +3405,7 @@ function local_hoteles_city_dashboard_print_filters(){
     // $canPrinAllFilters = local_hoteles_city_dashboard_has_permission(LOCAL_HOTELES_CITY_DASHBOARD_APPLY_FILTERS);
     // $filtersWithoutPermissions = array('institution', 'department');
     // echo "<form name='$identifier' class='row' id='$identifier'>";
+    $filters = '';
     foreach($catalogues as $catalogue_name => $catalogue_items){
         $name = $catalogue_name;
         $title = $allowed_filters->filter_names[$catalogue_name];
@@ -3418,7 +3419,7 @@ function local_hoteles_city_dashboard_print_filters(){
             if((local_hoteles_city_dashboard_is_director_regional() || local_hoteles_city_dashboard_is_gerente_general()) && $title == "Region"){
               continue;
             } else {
-                echo local_hoteles_city_dashboard_print_multiselect($name, $title, $description, $catalogue_items);
+                $filters .= local_hoteles_city_dashboard_print_multiselect($name, $title, $description, $catalogue_items);
             }
 
         }
@@ -3433,6 +3434,7 @@ function local_hoteles_city_dashboard_print_filters(){
         // }
 
     }
+    return $filters;
     // echo "<button value='Submit'>Submit</button>";
     // echo "</form>";
 }

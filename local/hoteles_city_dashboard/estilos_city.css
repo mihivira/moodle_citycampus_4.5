@@ -210,8 +210,8 @@
     margin: -75px 0 0 -75px;
     border: 16px solid #d1d1d1;
     border-radius: 50%;
-    border-top: 16px solid #004e91;
-    border-bottom: 16px solid #feef00;
+    border-top: 16px solid #d1d1d1;
+    border-bottom: 16px solid #d1d1d1;
     width: 120px;
     height: 120px;
     -webkit-animation: spin 2s linear infinite;

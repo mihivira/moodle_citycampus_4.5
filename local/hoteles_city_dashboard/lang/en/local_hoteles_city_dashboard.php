@@ -122,3 +122,9 @@ $string['reportes_uo'] = 'Reportes por Unidad Operativa';
 $string['graficas_comparativas'] = 'Gráficas Comparativas';
 $string['ajustes'] = 'Ajustes';
 $string['force_delete_users'] = 'Eliminar Usuarios Masivamente';
+
+
+$string['apply_filters'] = 'Aplicar filtros';
+$string['comparative'] = 'Comparativa';
+$string['selected_filters'] = 'Filtros seleccionados';
+$string['loading'] = 'Cargando...';

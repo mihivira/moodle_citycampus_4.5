@@ -26,6 +26,6 @@ defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_hoteles_city_dashboard';
 $plugin->release = '2.1.0';
-$plugin->version = 2025081301;
+$plugin->version = 2025081401;
 $plugin->requires = 2017111300;
 $plugin->maturity = MATURITY_RC;

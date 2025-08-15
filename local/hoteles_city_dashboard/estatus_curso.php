@@ -14,88 +14,32 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Plugin strings are defined here.
- *
- * @package     local_hoteles_city_dashboard
- * @category    dashboard
- * @copyright   2019 Subitus <contacto@subitus.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 require_once(__DIR__ . '/../../config.php');
-$context_system = context_system::instance();
-require_once(__DIR__ . '/lib.php');
+require_once($CFG->dirroot . '/local/hoteles_city_dashboard/lib.php');
 
-local_hoteles_city_dashboard_user_has_access(LOCAL_HOTELES_CITY_DASHBOARD_REPORTES);
-$url = 'graficas.php';
-
+$context = context_system::instance();
 require_login();
 
-$PAGE->set_url($CFG->wwwroot . "/local/hoteles_city_dashboard/estatus_curso.php");
-$PAGE->set_context($context_system);
+
+$PAGE->set_url(new moodle_url('/local/hoteles_city_dashboard/estatus_curso.php'));
+$PAGE->set_context($context);
 $PAGE->set_pagelayout('admin');
 $PAGE->set_title(get_string('pluginname', 'local_hoteles_city_dashboard'));
+$PAGE->set_heading(get_string('pluginname', 'local_hoteles_city_dashboard'));
+$PAGE->requires->css(new moodle_url('/local/hoteles_city_dashboard/estilos_city.css'));
+$PAGE->requires->css(new moodle_url('/local/hoteles_city_dashboard/choicesjs/styles/choices.min.css'));
+
+// Load JavaScript for the page
+$PAGE->requires->js(new moodle_url('/local/hoteles_city_dashboard/choicesjs/scripts/choices.min.js'));
+
+
+// Add AMD module
+$PAGE->requires->js_call_amd('local_hoteles_city_dashboard/status_cursos', 'init');
 
 echo $OUTPUT->header();
 
-
-?>
-<div class="modal d-block d-sm-none" tabindex="-1" role="dialog" style="background: rgba(0,0,0,0.6);">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                <div>
-                    <h5 class="modal-title"></h5>
-
-                </div>
-                <div class="modal-body">
-                    <p>Esta sección se visualiza de mejor forma desde una computadora.</p>
-                </div>
-                <div class="modal-footer">
-                <?php echo '<a href="'.$CFG->wwwroot.'"><button type="button" class="btn btn-primary">Regresar</button></a>'; ?>
-
-                </div>
-                </div>
-            </div>
-</div>
-
-<iframe src="<?php echo $url; ?>" id="page_iframe" frameborder="0" style="width: 100%; overflow: hidden;"></iframe>
-<!-- <div class="btnimprimir">
-    <button class="btn btn-primary" onclick="imprimir();">Imprimir</button>       
-</div> -->
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        document.getElementById('region-main').style.width = "100%";
-        require(['jquery'], function ($) {
-            setInterval(function() { iResize('page_iframe'); }, 1000);
-        });
-    });
-    var intervals = 0;
-    function iResize(frame_id) {
-        // if(intervals > 60){
-        //     return;
-        // }
-        // intervals++;
-        element = document.getElementById(frame_id);
-        if(element != null){
-            if(element.contentWindow != null){
-                if(element.contentWindow.document != null){
-                    if(element.contentWindow.document.body != null){
-                        if(element.contentWindow.document.body.offsetHeight != null){
-                            size = (element.contentWindow.document.body.offsetHeight ) + 'px';
-                            document.getElementById(frame_id).style.height = size;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    // function imprimir() {
-    //     window.print();
-    // }
-
-</script>
-<?php
+// Render the template
+$renderer = $PAGE->get_renderer('local_hoteles_city_dashboard');
+echo $renderer->render_graficas_cursos();
 
 echo $OUTPUT->footer();
