@@ -53,7 +53,6 @@ $PAGE->set_pagelayout('admin');
 // Obtener información del reporte.
 $report_info = local_hoteles_city_dashboard_get_report_columns($type);
 
-echo $report_info->ajax_printed_rows;
 $request_type = "users_" . $type;
 
 

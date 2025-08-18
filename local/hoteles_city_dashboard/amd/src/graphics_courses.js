@@ -30,9 +30,9 @@ define(['jquery', 'core/chartjs'], function($, Chart) {
                   '<div class="col-md-4">' +
                   '<div class="stats-container">' +
                   '<h6>Estadísticas</h6>' +
-                  '<p>Inscritos: <span id="inscritos' + this.id + '">0</span></p>' +
-                  '<p>Aprobados: <span id="aprobados' + this.id + '">0</span>%</p>' +
-                  '<p>No Aprobados: <span id="no_aprobados' + this.id + '">0</span>%</p>' +
+                  '<p>Inscritos: <span id="inscritos' + this.id + '">'+ (this.data.enrolled_users || 0) +'</span></p>' +
+                  '<p>Aprobados: <span id="aprobados' + this.id + '">'+ (this.data.approved_percentage || 0) +'</span></p>' +
+                  '<p>No Aprobados: <span id="no_aprobados' + this.id + '">'+ (this.data.not_approved_percentage || 0) +'</span></p>' +
                   '</div>' +
                   '</div>' +
                   '</div>' +

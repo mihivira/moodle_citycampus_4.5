@@ -489,10 +489,13 @@ $mform->display();
   <?php
 //}
 
-if($creating_user){ // Rellenado de formulario
+/* if($creating_user){ // Rellenado de formulario
     echo "<script src='user.js'></script>";
 }
-echo "<script src='llenar_cohorte.js'></script>";
+echo "<script src='llenar_cohorte.js'></script>"; */
+
+$PAGE->requires->js_call_amd('local_hoteles_city_dashboard/user_form_handler', 'init', []);
+
 echo $specialScript;
 ?>
 

@@ -25,7 +25,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['pluginname'] = 'Dashboard administrativo Hoteles City';
+$string['pluginname'] = 'Dashboard administrativo Norte 19';
 
 $string['tab_userform'] = 'Formulario de usuario';
 $string['userformcustomfields'] = 'Campos personalizados en formulario de usuario';
@@ -33,7 +33,7 @@ $string['userformcustomfields_desc'] = 'Seleccione los campos personalizados a m
 $string['userformdefaultfields'] = 'Campos formulario de usuario';
 $string['userformdefaultfields_desc'] = 'Seleccione los campos a mostrar en el formulario de usuario.'; // Presione ctrl para seleccionar varios elementos';
 $string['userformimage'] = '¿Incluir foto en formulario?';
-$string['userformimage_desc'] = 'Seleccione esta opción para permitir editar imágenes en el formulario del dashboard administrativo Hoteles City';
+$string['userformimage_desc'] = 'Seleccione esta opción para permitir editar imágenes en el formulario del dashboard administrativo Norte 19';
 
 $string['tab_profile'] = 'Campos del reporte';
 $string['reportcustomfields'] = 'Campos personalizados en reporte';
@@ -87,18 +87,18 @@ $string['certification_regions_desc'] = 'Seleccione las regiones que se incluir�
 
 $string['crontask_name'] = 'Generación de caché de cursos';
 
-$string['hoteles_city_dashboard:view'] = 'Ver Dashboard Hoteles City';
-$string['hoteles_city_dashboard:manage'] = 'Administrar Dashboard Hoteles City';
+$string['hoteles_city_dashboard:view'] = 'Ver Dashboard Norte 19';
+$string['hoteles_city_dashboard:manage'] = 'Administrar Dashboard Norte 19';
 
-$string['hoteles_city_dashboard:administrativo'] = 'Dahsboard hoteles city Administrativo';
-$string['hoteles_city_dashboard:ao'] = 'Dahsboard hoteles city Aprendizaje Organizacional';
-$string['hoteles_city_dashboard:gerente'] = 'Dahsboard hoteles city Gerente General';
-$string['hoteles_city_dashboard:regional'] = 'Dahsboard hoteles city Director Regional';
+$string['hoteles_city_dashboard:administrativo'] = 'Dahsboard Norte 19 Administrativo';
+$string['hoteles_city_dashboard:ao'] = 'Dahsboard Norte 19 Aprendizaje Organizacional';
+$string['hoteles_city_dashboard:gerente'] = 'Dahsboard Norte 19 Gerente General';
+$string['hoteles_city_dashboard:regional'] = 'Dahsboard Norte 19 Director Regional';
 
 $string['gestor_title_settings'] = 'Marcas y Unidades';
 $string['taskname'] = 'Generación de reportes de cursos';
 
-$string['pluginname'] = 'Dashboard de Hoteles City';
+$string['pluginname'] = 'Dashboard de Norte 19';
 $string['mis_reportes'] = 'Mis Reportes';
 $string['reporte_nombre'] = 'Nombre del Reporte';
 $string['reporte_fecha'] = 'Fecha de Creación';
@@ -128,3 +128,5 @@ $string['apply_filters'] = 'Aplicar filtros';
 $string['comparative'] = 'Comparativa';
 $string['selected_filters'] = 'Filtros seleccionados';
 $string['loading'] = 'Cargando...';
+
+$string['default_email_domain'] = 'norte19.com';

@@ -30,6 +30,7 @@ $context_system = context_system::instance();
 local_hoteles_city_dashboard_user_has_access(LOCAL_HOTELES_CITY_DASHBOARD_SERVICES);
 if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['request_type'])){
     $request_type = $_POST['request_type'];
+     error_log("Recibiendo petición: " . print_r($_POST, true));
     switch($request_type){
         case 'dashboard':
             die(local_hoteles_city_dashboard_format_response(local_hoteles_city_dashboard_get_dashboard_windows($params = $_POST)));

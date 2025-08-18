@@ -19,69 +19,70 @@
  *
  * @package     local_hoteles_city_dashboard
  * @category    admin
- * @copyright   2019 Subitus <contacto@subitus.com>
+ * @copyright   2025 Miguel villegas <mihivira@gmail.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require_once(__DIR__ . '/../../config.php');
 require_once(__DIR__ . '/lib.php');
+
 local_hoteles_city_dashboard_user_has_access(LOCAL_HOTELES_CITY_DASHBOARD_REPORTES);
-$PAGE->set_context(context_system::instance());
+
+$context = context_system::instance();
+$PAGE->set_context($context);
 $courseid = optional_param('courseid', -1, PARAM_INT);
-// $course = $DB->get_record('course', array('id' => $courseid), 'id, fullname', MUST_EXIST);
 $PAGE->set_url($CFG->wwwroot . '/local/hoteles_city_dashboard/detalle_curso.php');
+
+
+// Mantener tu configuración manual
+$PAGE->requires->css('/local/hoteles_city_dashboard/styles/datatables.css');
+$PAGE->requires->css('/local/hoteles_city_dashboard/styles/buttons.datatables.css');
+$PAGE->requires->js(new moodle_url('/local/hoteles_city_dashboard/datatables/v2.3.2/datatables.js'), true);
+$PAGE->requires->js(new moodle_url('/local/hoteles_city_dashboard/datatables/v2.3.2/buttons.datatables.js'), true);
+$PAGE->requires->js(new moodle_url('/local/hoteles_city_dashboard/datatables/v2.3.2/buttons.html5.datatables.js'), true);
+$PAGE->requires->js(new moodle_url('/local/hoteles_city_dashboard/datatables/jszip.min.js'), true);
+
+$PAGE->requires->css(new moodle_url('/local/hoteles_city_dashboard/choicesjs/styles/choices.min.css'));
+$PAGE->requires->js(new moodle_url('/local/hoteles_city_dashboard/choicesjs/scripts/choices.min.js'));
+
 $PAGE->set_pagelayout('admin');
 $PAGE->set_title('Detalle cursos');
 
+$PAGE->set_heading('Detalle cursos');
+
 
 echo $OUTPUT->header();
+
 $report_info = local_hoteles_city_dashboard_get_report_columns(LOCAL_HOTELES_CITY_DASHBOARD_COURSE_USERS_PAGINATION);
 $courses = local_hoteles_city_dashboard_get_courses_setting(true);
-$url = $CFG->wwwroot . '/local/hoteles_city_dashboard/detalle_curso_iframe.php';
+
 if($courseid != -1){
-    $url .= "?courseid=" . $courseid;
     $default_courses = $courseid;
 }else{
-    $default_courses = implode(',', array_keys($courses));
+    $default_courses = "";
 }
-$description = ""; // No es usado en esta sección
-// echo "<div class='container row'> <input type='hidden' name='request_type' value='course_users_pagination'>" .
-//  local_hoteles_city_dashboard_print_multiselect('report_courses', "Cursos", $default_courses, $courses, true, $class = 'col-sm-12') . "</div>";
-//  echo $OUTPUT->header();
+
+$multiselect = local_hoteles_city_dashboard_print_multiselect('report_courses', "Cursos", $default_courses, $courses, true, $class = 'col-sm-10 barra-cursos');
+
+// Llamar al AMD con los parámetros correctos
+$config = [
+    'courseid' => $courseid,
+    'default_courses' => $default_courses,
+    'ajax_code' => isset($report_info->ajax_code) ? $report_info->ajax_code : '',
+    'ajax_printed_rows' => isset($report_info->ajax_printed_rows) ? $report_info->ajax_printed_rows : '0,1,2,3',
+    'ajax_link_fields' => isset($report_info->ajax_link_fields) ? $report_info->ajax_link_fields : '3',
+    'wwwroot' => $CFG->wwwroot,
+];
+
+$PAGE->requires->js_call_amd('local_hoteles_city_dashboard/course_detail', 'init', [$config]);
 
 
- ?>
-    <iframe src="<?php echo $url; ?>" id="page_iframe" frameborder="0" style="width: 100%; overflow: hidden;"></iframe>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            document.getElementById('region-main').style.width = "100%";
-            require(['jquery'], function ($) {
-                setInterval(function() { iResize('page_iframe'); }, 1000);
-            });
-        });
-        var intervals = 0;
-        function iResize(frame_id) {
-            if(intervals > 60){
-                return;
-            }
-            intervals++;
-            element = document.getElementById(frame_id);
-            if(element != null){
-                if(element.contentWindow != null){
-                    if(element.contentWindow.document != null){
-                        if(element.contentWindow.document.body != null){
-                            if(element.contentWindow.document.body.offsetHeight != null){
-                                size = (element.contentWindow.document.body.offsetHeight + 500 ) + 'px';
-                                // console.log(size);
-                                document.getElementById(frame_id).style.height = "1500px";
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    
-    </script>
- <?php
- 
- echo $OUTPUT->footer();
+// Crear la instancia de la página correctamente
+$course_detail_page = new \local_hoteles_city_dashboard\output\course_detail_page($courseid, $courses, $report_info, $default_courses, $multiselect);
+$renderer = $PAGE->get_renderer('local_hoteles_city_dashboard');
+$output = $renderer->render_course_detail_page($course_detail_page);
+
+
+
+echo $output;
+echo $OUTPUT->footer();

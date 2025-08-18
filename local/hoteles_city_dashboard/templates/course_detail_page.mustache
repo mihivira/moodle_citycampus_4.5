@@ -1,0 +1,64 @@
+<div class="hoteles-city-dashboard">
+    <div class="row">
+        {{#is_gerente_general}}
+        {{#is_director_regional}}
+        <div class='col-sm-12' style='margin: auto;'>
+            <button id='todos_cursos' class='btn btn-info'>Seleccionar todos los cursos</button>
+            <button id='quitar_cursos' class='btn btn-info'>Quitar todos los cursos</button>
+        </div>
+        {{/is_director_regional}}
+        {{/is_gerente_general}}
+        {{^is_gerente_general}}
+        {{^is_director_regional}}
+        <div class='col-sm-12' style='padding:15px;'>
+            <button id='descargar_cursos' class='btn btn-info'>Seleccionar todos los cursos</button>
+            <button id='quitar_cursos' class='btn btn-info'>Quitar todos los cursos</button>
+        </div>
+        {{/is_director_regional}}
+        {{/is_gerente_general}}
+    </div>
+
+    <div class='row'>
+        
+        {{{multiselect}}}
+               
+        <div class="col-sm-2" style='margin: auto;'>
+            <button id='search_btn' class='btn btn-info'>Mostrar Información</button>
+        </div>
+
+        <div class="col-12" id="grafica_reporte" style="left: 10rem;"></div>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="text-align: center;" role="document">
+            <p class="txt_modal">Se está procesando la información, por favor tenga paciencia...</p>
+            <div class="spinner-border text-primary text-center"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>Información del curso</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div id="curso_graficas" class="card">
+                </div>
+        </div>
+    </div>               
+
+
+    <table id='empTable' class='display dataTable table table-bordered'>
+        <thead>
+            <tr>
+                {{{report_info.table_code}}}
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                {{{report_info.table_code}}}
+            </tr>
+        </tfoot>
+    </table>
+</div>

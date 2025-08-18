@@ -49,4 +49,9 @@ class renderer extends \plugin_renderer_base {
         
         return $this->render_from_template('local_hoteles_city_dashboard/graficas_cursos', $data);
     }
+
+     public function render_course_detail_page(course_detail_page $page) {
+        $data = $page->export_for_template($this);
+        return $this->render_from_template('local_hoteles_city_dashboard/course_detail_page', $data);
+    }
 }

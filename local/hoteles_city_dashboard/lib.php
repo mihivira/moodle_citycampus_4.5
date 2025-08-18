@@ -1755,10 +1755,16 @@ function local_hoteles_city_dashboard_get_report_columns(int $type, bool $return
             break;
             case 'link_libro_calificaciones':
                 global $CFG;
-                /* $ajax_code .= "{data: '{$an}', render: function ( data, type, row ) {
+                 $ajax_code[] = [ 'data' => $an, 'render' => "
+                function ( data, type, row ) {
+                    parts = data.split('||'); // id||courseid  
+                    return `<a target=\"_blank\" class=\"btn btn-primay\" href=\"{$CFG->wwwroot}/grade/report/user/index.php?id=` + parts[1] + `&userid=` + parts[0] + `\">Libro de calificaciones</a>`
+                    }"
+                ];
+                  /*"{data: '{$an}', render: function ( data, type, row ) {
                     parts = data.split('||'); 
                     return `<a target=\"_blank\" class=\"btn btn-primay\" href=\"{$CFG->wwwroot}/grade/report/user/index.php?id=` + parts[1] + `&userid=` + parts[0] + `\">Libro de calificaciones</a>`;
-                }}, "; */
+                }}, ";*/
                 break;
             default:
                 if(strpos($an, "custom_") !== false){
@@ -4312,70 +4318,83 @@ function local_hoteles_city_dashboard_get_data_users_cert(){
 
 }
 
-function local_hoteles_city_dashboard_get_departments_catalogue($institution){
+/**
+ * Obtiene el catálogo de trabajos asociados a una institución (departamento).
+ *
+ * @param string $institution Nombre de la institución/unidad organizativa
+ * @return array Catálogo de trabajos como arreglo asociativo [id => id]
+ */
+function local_hoteles_city_dashboard_get_departments_catalogue($institution) {
     global $DB;
 
+    // Limpiamos el nombre de la institución por seguridad
+    $institution = trim($institution);
+
+    // Verificar si hay excepciones configuradas para esta institución
     $contexceptions = get_config('local_hoteles_city_dashboard', 'exc_cont_');
-    $response = array();
-    
-    
-    for($i=0; $i <= $contexceptions; $i++){
-        $uoexception = get_config('local_hoteles_city_dashboard', 'exc_uo_'.$i);
-        if($uoexception == $institution){
-            $jobs = get_config('local_hoteles_city_dashboard', 'exc_catjobs_'.$i);
-            $arrjobs = explode(",", $jobs);
-            foreach($arrjobs as $result){
-                $response[$result] = $result;
+    if ($contexceptions && is_numeric($contexceptions)) {
+        for ($i = 0; $i <= $contexceptions; $i++) {
+            $uoexception = get_config('local_hoteles_city_dashboard', 'exc_uo_' . $i);
+            if ($uoexception == $institution) {
+                $jobs = get_config('local_hoteles_city_dashboard', 'exc_catjobs_' . $i);
+                $arrjobs = explode(',', $jobs);
+                $response = array();
+                foreach ($arrjobs as $job) {
+                    $job = trim($job);
+                    if (!empty($job)) {
+                        $response[$job] = $job;
+                    }
+                }
+                return $response;
             }
-           
-            return $response;
         }
     }
 
-    $getmarcas = get_config('local_hoteles_city_dashboard', 'gestor_marca');        
-    $arraymarca = explode("\n", $getmarcas);
-    $countmarca = count($arraymarca);
+    // Si no hay excepción, buscamos en marcas/unidades organizativas
+    $getmarcas = get_config('local_hoteles_city_dashboard', 'gestor_marca');
+    if (empty($getmarcas)) {
+        return array(); // No hay marcas definidas
+    }
+
+    $arraymarca = array_filter(array_map('trim', explode("\n", $getmarcas)));
     $marcasuos = array();
     $arrjobs = array();
 
-    for ($i=0; $i < $countmarca; $i++) {     
-           
-        $txt_marca = preg_replace("/[\r\n|\n|\r]+/", "", $arraymarca[$i]);                
-        $id_name = 'uo_'.$txt_marca;                              
-        $txt_name = preg_replace("/[\r\n|\n|\r]+/", "", $id_name);               
-        $namemarca = $txt_name;  
-        $uos = get_config('local_hoteles_city_dashboard', $namemarca);
-        $arr_uos = explode(',', $uos);
-        $marcasuos[$namemarca] = $arr_uos;
-        
-        
-        $idnamecatjobs = 'catjobs_'.$txt_marca;
-        $txt_name = preg_replace("/[\r\n|\n|\r]+/", "", $idnamecatjobs);               
-        $namecatjobs = $txt_name;  
-        $catjobs = get_config('local_hoteles_city_dashboard', $namecatjobs);
-        $arrcatjobs = explode(',', $catjobs);
-        $arrjobs[$namecatjobs] = $arrcatjobs;
-        
-    }
-   
-    foreach($marcasuos as $key => $uos){
+    foreach ($arraymarca as $marca) {
+        $marca = trim(preg_replace('/[\r\n]+/', '', $marca));
+        if (empty($marca)) continue;
 
-        if(in_array($institution, $uos)){
-            
-            $marca = strval($key);
-            $marca = str_replace("uo_", "catjobs_", $marca );
-            $jobs = $arrjobs[$marca];
-            
-            foreach($jobs as $result){
-                $response[$result] = $result;
+        // Unidades organizativas
+        $uo_key = 'uo_' . $marca;
+        $uos = get_config('local_hoteles_city_dashboard', $uo_key);
+        $uos = array_filter(array_map('trim', explode(',', $uos)));
+        $marcasuos[$uo_key] = $uos;
+
+        // Categorías/trabajos
+        $cat_key = 'catjobs_' . $marca;
+        $catjobs = get_config('local_hoteles_city_dashboard', $cat_key);
+        $catjobs = array_filter(array_map('trim', explode(',', $catjobs)));
+        $arrjobs[$cat_key] = $catjobs;
+    }
+
+    // Buscar coincidencia con la institución
+    foreach ($marcasuos as $key => $uos) {
+        if (in_array($institution, $uos)) {
+            $cat_key = str_replace('uo_', 'catjobs_', $key);
+            if (isset($arrjobs[$cat_key])) {
+                $response = array();
+                foreach ($arrjobs[$cat_key] as $job) {
+                    $job = trim($job);
+                    if (!empty($job)) {
+                        $response[$job] = $job;
+                    }
+                }
+                return $response;
             }
-            
-            return $response;
         }
-        
     }
 
-
+    return array(); // No se encontró coincidencia
 }
 
 function local_hoteles_city_dashboard_get_download_link($contextid, $itemid, $filename) {
