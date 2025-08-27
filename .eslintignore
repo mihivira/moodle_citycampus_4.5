@@ -117,7 +117,7 @@ mod/hvp/reporting/
 mod/questionnaire/javascript/RGraph/
 mod/unilabel/js/
 repository/s3/S3.php
-theme/almondb/js/splide.min.js
+theme/norte19/js/splide.min.js
 theme/boost/scss/bootstrap/
 theme/boost/amd/src/bootstrap/alert.js
 theme/boost/amd/src/bootstrap/button.js

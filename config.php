@@ -4,6 +4,7 @@ unset($CFG);
 global $CFG;
 $CFG = new stdClass();
 
+
 $CFG->dbtype    = 'mariadb';
 $CFG->dblibrary = 'native';
 $CFG->dbhost    = 'db';

@@ -116,7 +116,7 @@
   <exclude-pattern>mod/questionnaire/javascript/RGraph/</exclude-pattern>
   <exclude-pattern>mod/unilabel/js/</exclude-pattern>
   <exclude-pattern>repository/s3/S3.php</exclude-pattern>
-  <exclude-pattern>theme/almondb/js/splide.min.js</exclude-pattern>
+  <exclude-pattern>theme/norte19/js/splide.min.js</exclude-pattern>
   <exclude-pattern>theme/boost/scss/bootstrap/</exclude-pattern>
   <exclude-pattern>theme/boost/amd/src/bootstrap/alert.js</exclude-pattern>
   <exclude-pattern>theme/boost/amd/src/bootstrap/button.js</exclude-pattern>

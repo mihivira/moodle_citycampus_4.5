@@ -1111,7 +1111,7 @@ function local_hoteles_city_dashboard_get_info_course($course, array $params, bo
             
             $paramssql = array_merge($inparamscourse, $inparamsinstitutions);
 
-            $query = "SELECT DISTINCT
+            /*$query = "SELECT DISTINCT
             u.id,
             concat(u.firstname, ' ', u.lastname, '||',u.id) as user,
             u.institution,
@@ -1120,7 +1120,18 @@ function local_hoteles_city_dashboard_get_info_course($course, array $params, bo
             FROM {role_assignments}   AS ra
             JOIN {context}            AS ctx ON ctx.id    = ra.contextid   AND ctx.contextlevel = 50
             JOIN {course}             AS c   ON c.id      = ctx.instanceid AND c.id {$insqlcourse}
-            JOIN {user}               AS u   ON u.id      = ra.userid  AND u.suspended = 0 AND u.deleted = 0 AND u.institution {$insqlintitutions} ";
+            JOIN {user}               AS u   ON u.id      = ra.userid  AND u.suspended = 0 AND u.deleted = 0 AND u.institution {$insqlintitutions} ";*/
+
+            $query = "SELECT DISTINCT
+            u.id,
+            concat(u.firstname, ' ', u.lastname, '||',u.id) as user,
+            u.institution,
+            c.fullname,
+            cc.timecompleted
+            FROM {user} AS u 
+            JOIN {user_enrolments}   AS ue ON ue.status = 0 AND ue.userid = u.id
+            JOIN {enrol} AS e ON e.id = ue.enrolid AND e.courseid {$insqlcourse} 
+            JOIN {course} AS c ON c.id = e.courseid ";
 
             if(isset($params['department'])){
                 list($insqldepartment, $inparamsdepartment) = $DB->get_in_or_equal($params['department']);
@@ -1128,6 +1139,7 @@ function local_hoteles_city_dashboard_get_info_course($course, array $params, bo
                 $paramssql = array_merge($paramssql, $inparamsdepartment);
             }
             $query .= "JOIN {course_completions} AS cc  ON cc.course = c.id AND cc.userid = u.id";
+            $query .= " WHERE u.suspended = 0 AND u.deleted = 0 AND u.institution {$insqlintitutions}";
            /*  debugging('El valor de $query es: ');
             print_r($query); 
             debugging('El valor de $paramssql es: ');
